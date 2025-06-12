@@ -31,9 +31,17 @@ with col3:
         player_options = df[df["pitcher_cape_team"] == selected_team]["Pitcher"].unique()
     else:
         player_options = df[df["hitter_cape_team"] == selected_team]["Batter"].unique()
+    else:
+        player_options = df[df["pitcher_cape_team"] == selected_team]["Pitcher"].unique()
+    if len(player_options) == 0:
+        selected_player = st.selectbox("Select Player", ["No players available"])
+    else:
+        selected_player = st.selectbox("Select Player", player_options)
+
 
 
 st.write(f"You selected Team: **{selected_team}**, Position: **{position}**, Player: **{selected_player}**")
+
 
 if position == "Batter":
     # Determine and display the batter’s handedness
