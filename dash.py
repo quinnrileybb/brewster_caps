@@ -132,348 +132,348 @@ with tabs[0]:
         else:
             return "Other"
 
-        df_player['CountSituation'] = df_player.apply(get_count_situation_extended, axis=1)
+    df_player['CountSituation'] = df_player.apply(get_count_situation_extended, axis=1)
 
 # Create a second pitch indicator: 1-0 or 0-1
-        df_player['second_pitch'] = (((df_player['Balls'] == 1) & (df_player['Strikes'] == 0)) |
+    df_player['second_pitch'] = (((df_player['Balls'] == 1) & (df_player['Strikes'] == 0)) |
                              ((df_player['Balls'] == 0) & (df_player['Strikes'] == 1)))
 
 # Compute overall totals for each condition by BatterSide.
-        total_overall_RHH = df_player[df_player['BatterSide'] == "Right"].shape[0]
-        total_overall_LHH = df_player[df_player['BatterSide'] == "Left"].shape[0]
-        total_0_0_RHH = df_player[(df_player['BatterSide'] == "Right") & (df_player['CountSituation'] == "0-0")].shape[0]
-        total_0_0_LHH = df_player[(df_player['BatterSide'] == "Left") & (df_player['CountSituation'] == "0-0")].shape[0]
-        total_second_RHH = df_player[(df_player['BatterSide'] == "Right") & (df_player['second_pitch'])].shape[0]
-        total_second_LHH = df_player[(df_player['BatterSide'] == "Left") & (df_player['second_pitch'])].shape[0]
-        total_ahead_RHH = df_player[(df_player['BatterSide'] == "Right") & (df_player['CountSituation'] == "Ahead")].shape[0]
-        total_ahead_LHH = df_player[(df_player['BatterSide'] == "Left") & (df_player['CountSituation'] == "Ahead")].shape[0]
-        total_behind_RHH = df_player[(df_player['BatterSide'] == "Right") & (df_player['CountSituation'] == "Behind")].shape[0]
-        total_behind_LHH = df_player[(df_player['BatterSide'] == "Left") & (df_player['CountSituation'] == "Behind")].shape[0]
-        total_2Strk_RHH = df_player[(df_player['BatterSide'] == "Right") & (df_player['CountSituation'] == "2Strk")].shape[0]
-        total_2Strk_LHH = df_player[(df_player['BatterSide'] == "Left") & (df_player['CountSituation'] == "2Strk")].shape[0]
+    total_overall_RHH = df_player[df_player['BatterSide'] == "Right"].shape[0]
+    total_overall_LHH = df_player[df_player['BatterSide'] == "Left"].shape[0]        
+    total_0_0_RHH = df_player[(df_player['BatterSide'] == "Right") & (df_player['CountSituation'] == "0-0")].shape[0]
+    total_0_0_LHH = df_player[(df_player['BatterSide'] == "Left") & (df_player['CountSituation'] == "0-0")].shape[0]
+    total_second_RHH = df_player[(df_player['BatterSide'] == "Right") & (df_player['second_pitch'])].shape[0]
+    total_second_LHH = df_player[(df_player['BatterSide'] == "Left") & (df_player['second_pitch'])].shape[0]
+    total_ahead_RHH = df_player[(df_player['BatterSide'] == "Right") & (df_player['CountSituation'] == "Ahead")].shape[0]
+    total_ahead_LHH = df_player[(df_player['BatterSide'] == "Left") & (df_player['CountSituation'] == "Ahead")].shape[0]
+    total_behind_RHH = df_player[(df_player['BatterSide'] == "Right") & (df_player['CountSituation'] == "Behind")].shape[0]
+    total_behind_LHH = df_player[(df_player['BatterSide'] == "Left") & (df_player['CountSituation'] == "Behind")].shape[0]
+    total_2Strk_RHH = df_player[(df_player['BatterSide'] == "Right") & (df_player['CountSituation'] == "2Strk")].shape[0]
+    total_2Strk_LHH = df_player[(df_player['BatterSide'] == "Left") & (df_player['CountSituation'] == "2Strk")].shape[0]
 
-        all_pitch_total = len(df_player)
+    all_pitch_total = len(df_player)
 
 # Now compute the pitch usage metrics for each pitch type.
-        pitch_usage_data = []
-        for pt in sorted(df_player['AutoPitchType'].unique(), key=lambda x: str(x)):
-            df_pt = df_player[df_player["AutoPitchType"] == pt]
-            count = len(df_pt)
-            overall_usage = (count / all_pitch_total) * 100 if all_pitch_total > 0 else np.nan
+    pitch_usage_data = []
+    for pt in sorted(df_player['AutoPitchType'].unique(), key=lambda x: str(x)):
+        df_pt = df_player[df_player["AutoPitchType"] == pt]
+        count = len(df_pt)
+        overall_usage = (count / all_pitch_total) * 100 if all_pitch_total > 0 else np.nan
 
     # Overall by handedness:
-            count_RHH = df_pt[df_pt["BatterSide"] == "Right"].shape[0]
-            count_LHH = df_pt[df_pt["BatterSide"] == "Left"].shape[0]
-            RHH_overall = (count_RHH / total_overall_RHH * 100) if total_overall_RHH > 0 else np.nan
-            LHH_overall = (count_LHH / total_overall_LHH * 100) if total_overall_LHH > 0 else np.nan
+        count_RHH = df_pt[df_pt["BatterSide"] == "Right"].shape[0]
+        count_LHH = df_pt[df_pt["BatterSide"] == "Left"].shape[0]
+        RHH_overall = (count_RHH / total_overall_RHH * 100) if total_overall_RHH > 0 else np.nan
+        LHH_overall = (count_LHH / total_overall_LHH * 100) if total_overall_LHH > 0 else np.nan
 
     # 0-0 by handedness:
-            count_RHH_0_0 = df_pt[(df_pt["BatterSide"] == "Right") & (df_pt["CountSituation"] == "0-0")].shape[0]
-            count_LHH_0_0 = df_pt[(df_pt["BatterSide"] == "Left") & (df_pt["CountSituation"] == "0-0")].shape[0]
-            RHH_0_0 = (count_RHH_0_0 / total_0_0_RHH * 100) if total_0_0_RHH > 0 else np.nan
-            LHH_0_0 = (count_LHH_0_0 / total_0_0_LHH * 100) if total_0_0_LHH > 0 else np.nan
+        count_RHH_0_0 = df_pt[(df_pt["BatterSide"] == "Right") & (df_pt["CountSituation"] == "0-0")].shape[0]
+        count_LHH_0_0 = df_pt[(df_pt["BatterSide"] == "Left") & (df_pt["CountSituation"] == "0-0")].shape[0]
+        RHH_0_0 = (count_RHH_0_0 / total_0_0_RHH * 100) if total_0_0_RHH > 0 else np.nan
+        LHH_0_0 = (count_LHH_0_0 / total_0_0_LHH * 100) if total_0_0_LHH > 0 else np.nan
 
     # Second Pitch by handedness:
-            count_RHH_second = df_pt[(df_pt["BatterSide"] == "Right") & (df_pt["second_pitch"])].shape[0]
-            count_LHH_second = df_pt[(df_pt["BatterSide"] == "Left") & (df_pt["second_pitch"])].shape[0]
-            RHH_second = (count_RHH_second / total_second_RHH * 100) if total_second_RHH > 0 else np.nan
-            LHH_second = (count_LHH_second / total_second_LHH * 100) if total_second_LHH > 0 else np.nan
+        count_RHH_second = df_pt[(df_pt["BatterSide"] == "Right") & (df_pt["second_pitch"])].shape[0]
+        count_LHH_second = df_pt[(df_pt["BatterSide"] == "Left") & (df_pt["second_pitch"])].shape[0]
+        RHH_second = (count_RHH_second / total_second_RHH * 100) if total_second_RHH > 0 else np.nan
+        LHH_second = (count_LHH_second / total_second_LHH * 100) if total_second_LHH > 0 else np.nan
 
     # Ahead by handedness:
-            count_RHH_ahead = df_pt[(df_pt["BatterSide"] == "Right") & (df_pt["CountSituation"] == "Ahead")].shape[0]
-            count_LHH_ahead = df_pt[(df_pt["BatterSide"] == "Left") & (df_pt["CountSituation"] == "Ahead")].shape[0]
-            RHH_ahead = (count_RHH_ahead / total_ahead_RHH * 100) if total_ahead_RHH > 0 else np.nan
-            LHH_ahead = (count_LHH_ahead / total_ahead_LHH * 100) if total_ahead_LHH > 0 else np.nan
+        count_RHH_ahead = df_pt[(df_pt["BatterSide"] == "Right") & (df_pt["CountSituation"] == "Ahead")].shape[0]
+        count_LHH_ahead = df_pt[(df_pt["BatterSide"] == "Left") & (df_pt["CountSituation"] == "Ahead")].shape[0]
+        RHH_ahead = (count_RHH_ahead / total_ahead_RHH * 100) if total_ahead_RHH > 0 else np.nan
+        LHH_ahead = (count_LHH_ahead / total_ahead_LHH * 100) if total_ahead_LHH > 0 else np.nan
 
     # Behind by handedness:
-            count_RHH_behind = df_pt[(df_pt["BatterSide"] == "Right") & (df_pt["CountSituation"] == "Behind")].shape[0]
-            count_LHH_behind = df_pt[(df_pt["BatterSide"] == "Left") & (df_pt["CountSituation"] == "Behind")].shape[0]
-            RHH_behind = (count_RHH_behind / total_behind_RHH * 100) if total_behind_RHH > 0 else np.nan
-            LHH_behind = (count_LHH_behind / total_behind_LHH * 100) if total_behind_LHH > 0 else np.nan
+        count_RHH_behind = df_pt[(df_pt["BatterSide"] == "Right") & (df_pt["CountSituation"] == "Behind")].shape[0]
+        count_LHH_behind = df_pt[(df_pt["BatterSide"] == "Left") & (df_pt["CountSituation"] == "Behind")].shape[0]
+        RHH_behind = (count_RHH_behind / total_behind_RHH * 100) if total_behind_RHH > 0 else np.nan
+        LHH_behind = (count_LHH_behind / total_behind_LHH * 100) if total_behind_LHH > 0 else np.nan
 
     # 2Strk by handedness:
-            count_RHH_2strk = df_pt[(df_pt["BatterSide"] == "Right") & (df_pt["CountSituation"] == "2Strk")].shape[0]
-            count_LHH_2strk = df_pt[(df_pt["BatterSide"] == "Left") & (df_pt["CountSituation"] == "2Strk")].shape[0]
-            RHH_2strk = (count_RHH_2strk / total_2Strk_RHH * 100) if total_2Strk_RHH > 0 else np.nan
-            LHH_2strk = (count_LHH_2strk / total_2Strk_LHH * 100) if total_2Strk_LHH > 0 else np.nan
+        count_RHH_2strk = df_pt[(df_pt["BatterSide"] == "Right") & (df_pt["CountSituation"] == "2Strk")].shape[0]
+        count_LHH_2strk = df_pt[(df_pt["BatterSide"] == "Left") & (df_pt["CountSituation"] == "2Strk")].shape[0]
+        RHH_2strk = (count_RHH_2strk / total_2Strk_RHH * 100) if total_2Strk_RHH > 0 else np.nan
+        LHH_2strk = (count_LHH_2strk / total_2Strk_LHH * 100) if total_2Strk_LHH > 0 else np.nan
 
-            pitch_usage_data.append({
-                "Pitch Type": pt,
-                "Count": count,
-                "Overall Usage": round(overall_usage, 1),
-                "RHH Overall %": round(RHH_overall, 1),
-                "LHH Overall %": round(LHH_overall, 1),
-                "RHH 0-0%": round(RHH_0_0, 1),
-                "LHH 0-0%": round(LHH_0_0, 1),
-                "RHH Second Pitch%": round(RHH_second, 1),
-                "LHH Second Pitch%": round(LHH_second, 1),
-                "RHH Ahead%": round(RHH_ahead, 1),
-                "LHH Ahead%": round(LHH_ahead, 1),
-                "RHH Behind%": round(RHH_behind, 1),
-                "LHH Behind%": round(LHH_behind, 1),
-                "RHH 2Strk%": round(RHH_2strk, 1),
-                "LHH 2Strk%": round(LHH_2strk, 1)
-            })
+        pitch_usage_data.append({
+            "Pitch Type": pt,
+            "Count": count,
+            "Overall Usage": round(overall_usage, 1),
+            "RHH Overall %": round(RHH_overall, 1),
+            "LHH Overall %": round(LHH_overall, 1),
+            "RHH 0-0%": round(RHH_0_0, 1),
+            "LHH 0-0%": round(LHH_0_0, 1),
+            "RHH Second Pitch%": round(RHH_second, 1),
+            "LHH Second Pitch%": round(LHH_second, 1),
+            "RHH Ahead%": round(RHH_ahead, 1),
+            "LHH Ahead%": round(LHH_ahead, 1),
+            "RHH Behind%": round(RHH_behind, 1),
+            "LHH Behind%": round(LHH_behind, 1),
+            "RHH 2Strk%": round(RHH_2strk, 1),
+            "LHH 2Strk%": round(LHH_2strk, 1)
+        })
 
-        usage_df = pd.DataFrame(pitch_usage_data)
-        usage_df = usage_df.sort_values("Count", ascending=False)
+    usage_df = pd.DataFrame(pitch_usage_data)
+    usage_df = usage_df.sort_values("Count", ascending=False)
 
 
 # Apply styling to the DataFrame.
-        usage_df_styled = usage_df.style.format({
-    "Overall Usage": "{:.1f}",
-    "RHH Overall %": "{:.1f}",
-    "LHH Overall %": "{:.1f}",
-    "RHH 0-0%": "{:.1f}",
-    "LHH 0-0%": "{:.1f}",
-    "RHH Second Pitch%": "{:.1f}",
-    "LHH Second Pitch%": "{:.1f}",
-    "RHH Ahead%": "{:.1f}",
-    "LHH Ahead%": "{:.1f}",
-    "RHH Behind%": "{:.1f}",
-    "LHH Behind%": "{:.1f}",
-    "RHH 2Strk%": "{:.1f}",
-    "LHH 2Strk%": "{:.1f}"
+    usage_df_styled = usage_df.style.format({
+"Overall Usage": "{:.1f}",
+"RHH Overall %": "{:.1f}",
+"LHH Overall %": "{:.1f}",
+"RHH 0-0%": "{:.1f}",
+"LHH 0-0%": "{:.1f}",
+"RHH Second Pitch%": "{:.1f}",
+"LHH Second Pitch%": "{:.1f}",
+"RHH Ahead%": "{:.1f}",
+"LHH Ahead%": "{:.1f}",
+"RHH Behind%": "{:.1f}",
+"LHH Behind%": "{:.1f}",
+"RHH 2Strk%": "{:.1f}",
+"LHH 2Strk%": "{:.1f}"
 })
 
-        st.subheader("Pitch Usage Table")
-        st.dataframe(usage_df_styled)
-        table1_df = usage_df.copy()
+    st.subheader("Pitch Usage Table")
+    st.dataframe(usage_df_styled)
+    table1_df = usage_df.copy()
 
          
 
         # Third Table: Pitch Metrics
-        overall_counts = df_player['AutoPitchType'].value_counts()
-        total_pitches = len(df_player)
-        overall_usage = (overall_counts / total_pitches * 100).round(1)
-        grouped = df_player.groupby("AutoPitchType").agg({
-            "RelSpeed": ["mean", "max"],
-            "SpinRate": "mean",
-            "Tilt_numeric": "mean",
-            "InducedVertBreak": "mean",
-            "HorzBreak": "mean",
-            "VertApprAngle": "mean",
-            "HorzApprAngle": "mean",
-            "Extension": "mean",
-            "RelHeight": "mean",
-            "RelSide": "mean"
-        })
-        grouped.columns = ["MPH", "Top MPH", "RPMs", "Tilt", "IVB", "HB", "VAA", "HAA", "Extension", "RelHeight", "RelSide"]
-        grouped["Overall Usage %"] = overall_usage
-        grouped = grouped.reset_index().rename(columns={"AutoPitchType": "Pitch Type"})
-        grouped = grouped[["Pitch Type", "Overall Usage %", "MPH", "Top MPH", "RPMs", "Tilt", "IVB", "HB", "VAA", "HAA", "Extension", "RelHeight", "RelSide"]]
-        for col in ["Overall Usage %", "MPH", "Top MPH", "RPMs", "Tilt", "IVB", "HB", "VAA", "HAA", "Extension", "RelHeight", "RelSide"]:
-            grouped[col] = grouped[col].round(1)
-        grouped = grouped.sort_values("Overall Usage %", ascending=False)
-        st.subheader("Pitch Metrics by Pitch Type")
+    overall_counts = df_player['AutoPitchType'].value_counts()
+    total_pitches = len(df_player)
+    overall_usage = (overall_counts / total_pitches * 100).round(1)
+    grouped = df_player.groupby("AutoPitchType").agg({
+        "RelSpeed": ["mean", "max"],
+        "SpinRate": "mean",
+        "Tilt_numeric": "mean",
+        "InducedVertBreak": "mean",
+        "HorzBreak": "mean",
+        "VertApprAngle": "mean",
+        "HorzApprAngle": "mean",
+        "Extension": "mean",
+        "RelHeight": "mean",
+        "RelSide": "mean"
+    })
+    grouped.columns = ["MPH", "Top MPH", "RPMs", "Tilt", "IVB", "HB", "VAA", "HAA", "Extension", "RelHeight", "RelSide"]
+    grouped["Overall Usage %"] = overall_usage
+    grouped = grouped.reset_index().rename(columns={"AutoPitchType": "Pitch Type"})
+    grouped = grouped[["Pitch Type", "Overall Usage %", "MPH", "Top MPH", "RPMs", "Tilt", "IVB", "HB", "VAA", "HAA", "Extension", "RelHeight", "RelSide"]]
+    for col in ["Overall Usage %", "MPH", "Top MPH", "RPMs", "Tilt", "IVB", "HB", "VAA", "HAA", "Extension", "RelHeight", "RelSide"]:
+        grouped[col] = grouped[col].round(1)
+    grouped = grouped.sort_values("Overall Usage %", ascending=False)
+    st.subheader("Pitch Metrics by Pitch Type")
 # Use st.dataframe with a styled DataFrame to format numbers to one decimal place.
-        st.dataframe(grouped.style.format({
-            "Overall Usage %": "{:.1f}",
-            "MPH": "{:.1f}",
-            "Top MPH": "{:.1f}",
-            "RPMs": "{:.1f}",
-            "Tilt": "{:.1f}",
-            "IVB": "{:.1f}",
-            "HB": "{:.1f}",
-            "VAA": "{:.1f}",
-            "HAA": "{:.1f}",
-            "Extension": "{:.1f}",
-            "RelHeight": "{:.1f}",
-            "RelSide": "{:.1f}"
-        }))
+    st.dataframe(grouped.style.format({
+        "Overall Usage %": "{:.1f}",
+        "MPH": "{:.1f}",
+        "Top MPH": "{:.1f}",
+        "RPMs": "{:.1f}",
+        "Tilt": "{:.1f}",
+        "IVB": "{:.1f}",
+        "HB": "{:.1f}",
+        "VAA": "{:.1f}",
+        "HAA": "{:.1f}",
+        "Extension": "{:.1f}",
+        "RelHeight": "{:.1f}",
+        "RelSide": "{:.1f}"
+    }))
 
-        col1, col2 = st.columns(2)
-        with col1:
-            handedness_options = ["Combined", "Left", "Right"]
-            selected_handedness = st.selectbox("Filter by Batter Handedness", handedness_options)
-        with col2:
-            count_options = [
-                "0 Strikes", "1 Strike", "2 Strikes",
-                "0 Balls",   "1 Ball",   "2 Balls",   "3 Balls"
-            ]
+    col1, col2 = st.columns(2)
+    with col1:
+        handedness_options = ["Combined", "Left", "Right"]
+        selected_handedness = st.selectbox("Filter by Batter Handedness", handedness_options)
+    with col2:
+        count_options = [
+            "0 Strikes", "1 Strike", "2 Strikes",
+            "0 Balls",   "1 Ball",   "2 Balls",   "3 Balls"
+        ]
     # default to all counts checked
-            selected_counts = st.multiselect("Filter by Count", count_options, default=count_options)
+        selected_counts = st.multiselect("Filter by Count", count_options, default=count_options)
 
 # ——— Apply the handedness filter ———
-        if selected_handedness == "Left":
-            df_player_filtered = df_player[df_player["BatterSide"] == "Left"].copy()
-        elif selected_handedness == "Right":
-            df_player_filtered = df_player[df_player["BatterSide"] == "Right"].copy()
-        else:
-            df_player_filtered = df_player.copy()
+    if selected_handedness == "Left":
+        df_player_filtered = df_player[df_player["BatterSide"] == "Left"].copy()
+    elif selected_handedness == "Right":
+        df_player_filtered = df_player[df_player["BatterSide"] == "Right"].copy()
+    else:
+        df_player_filtered = df_player.copy()
 
 # ——— Apply the count filter ———
 # parse out which numeric strikes and balls were selected
-        strike_counts = [int(s.split()[0]) for s in selected_counts if "Strike" in s]
-        ball_counts  = [int(s.split()[0]) for s in selected_counts if "Ball" in s]
+    strike_counts = [int(s.split()[0]) for s in selected_counts if "Strike" in s]
+    ball_counts  = [int(s.split()[0]) for s in selected_counts if "Ball" in s]
 
 # keep any row that matches either a selected strikes OR a selected balls
-        if strike_counts or ball_counts:
-            df_player_filtered = df_player_filtered[
-                df_player_filtered["Strikes"].isin(strike_counts)
-                & df_player_filtered["Balls"].isin(ball_counts)
-            ]
-        df_player_filtered['play_by_play'] = np.where(df_player_filtered['PlayResult'] != 'Undefined',
-                                                       df_player_filtered['PlayResult'],
-                                                       df_player_filtered['PitchCall'])
-        event_mapping = {
-            'StrikeCalled': 'called_strike',
-            'Double': 'double',
-            'Sacrifice': 'sac_fly',
-            'BallCalled': 'ball',
-            'HomeRun': 'home_run',
-            'StrikeSwinging': 'swinging_strike',
-            'Error': 'field_error',
-            'error': 'field_error',
-            'Out': 'field_out',
-            'BallinDirt': 'ball',
-            'FoulBall': 'foul',
-            'Single': 'single',
-            'FieldersChoice': 'fielders_choice',
-            'Triple': 'triple',
-            'FoulBallNotFieldable': 'foul',
-            'StolenBase': None,
-            'HitByPitch': 'hit_by_pitch',
-            'FoulBallFieldable': 'foul',
-            'BallIntentional': 'ball',
-            'CaughtStealing': None,
-            'AutomaticStrike': 'called_strike'
-        }
-        weights = {
-            'home_run': -1.374328827,
-            'triple': -1.05755625,
-            'double': -0.766083123,
-            'single': -0.467292971,
-            'ball': -0.063688329,
-            'hit_by_pitch': -0.063688329,
-            'blocked_ball': -0.063688329,
-            'foul': 0.038050274,
-            'foul_tip': 0.038050274,
-            'bunt_foul': 0.038050274,
-            'bunt_foul_tip': 0.038050274,
-            'called_strike': 0.065092516,
-            'swinging_strike': 0.118124936,
-            'swinging_strike_blocked': 0.118124936,
-            'force_out': 0.195568767,
-            'grounded_into_double_play': 0.195568767,
-            'fielders_choice_out': 0.195568767,
-            'fielders_choice': 0.195568767,
-            'field_out': 0.195568767,
-            'double_play': 0.195568767,
-            'sac_fly': 0.236889646,
-            'field_error': 0.236889646,
-            'sac_fly_double_play': 0.789788814,
-            'triple_play': 0.789788814
-        }
-        def get_run_value(event):
-            mapped_event = event_mapping.get(event, None)
-            if mapped_event is None:
-                return 0
-            return weights.get(mapped_event, 0)
-        df_player_filtered['run_value'] = df_player_filtered['play_by_play'].apply(get_run_value)
+    if strike_counts or ball_counts:
+        df_player_filtered = df_player_filtered[
+            df_player_filtered["Strikes"].isin(strike_counts)
+            & df_player_filtered["Balls"].isin(ball_counts)
+        ]
+    df_player_filtered['play_by_play'] = np.where(df_player_filtered['PlayResult'] != 'Undefined',
+                                                    df_player_filtered['PlayResult'],
+                                                    df_player_filtered['PitchCall'])
+    event_mapping = {
+        'StrikeCalled': 'called_strike',
+        'Double': 'double',
+        'Sacrifice': 'sac_fly',
+        'BallCalled': 'ball',
+        'HomeRun': 'home_run',
+        'StrikeSwinging': 'swinging_strike',
+        'Error': 'field_error',
+        'error': 'field_error',
+        'Out': 'field_out',
+        'BallinDirt': 'ball',
+        'FoulBall': 'foul',
+        'Single': 'single',
+        'FieldersChoice': 'fielders_choice',
+        'Triple': 'triple',
+        'FoulBallNotFieldable': 'foul',
+        'StolenBase': None,
+        'HitByPitch': 'hit_by_pitch',
+        'FoulBallFieldable': 'foul',
+        'BallIntentional': 'ball',
+        'CaughtStealing': None,
+        'AutomaticStrike': 'called_strike'
+    }
+    weights = {
+        'home_run': -1.374328827,
+        'triple': -1.05755625,
+        'double': -0.766083123,
+        'single': -0.467292971,
+        'ball': -0.063688329,
+        'hit_by_pitch': -0.063688329,
+        'blocked_ball': -0.063688329,
+        'foul': 0.038050274,
+        'foul_tip': 0.038050274,
+        'bunt_foul': 0.038050274,
+        'bunt_foul_tip': 0.038050274,
+        'called_strike': 0.065092516,
+        'swinging_strike': 0.118124936,
+        'swinging_strike_blocked': 0.118124936,
+        'force_out': 0.195568767,
+        'grounded_into_double_play': 0.195568767,
+        'fielders_choice_out': 0.195568767,
+        'fielders_choice': 0.195568767,
+        'field_out': 0.195568767,
+        'double_play': 0.195568767,
+        'sac_fly': 0.236889646,
+        'field_error': 0.236889646,
+        'sac_fly_double_play': 0.789788814,
+        'triple_play': 0.789788814
+    }
+    def get_run_value(event):
+        mapped_event = event_mapping.get(event, None)
+        if mapped_event is None:
+            return 0
+        return weights.get(mapped_event, 0)
+    df_player_filtered['run_value'] = df_player_filtered['play_by_play'].apply(get_run_value)
 
         # Step 2 for Results Table: Compute Metrics & Build Table using filtered data.
         # -------------------------
 # Results Table
 # -------------------------
 # Define sets & zones
-        strike_set = {"StrikeSwinging", "StrikeCalled", "AutomaticStrike", 
-                      "FoulBallFieldable", "FoulBallNotFieldable", "FoulBall", "InPlay"}
-        strike_zone = {"x_min": -0.83, "x_max": 0.83, "z_min": 1.5, "z_max": 3.5}
-        swing_set  = {"StrikeSwinging", "InPlay", "FoulBallFieldable", "FoulBallNotFieldable", "FoulBall"}
-        chase_set  = swing_set  # same as swing_set for chases
-        woba_wts   = {'Out':0,'Walk':0.69,'HitByPitch':0.72,'Single':0.88,'Double':1.247,'Triple':1.578,'HomeRun':2.031}
+    strike_set = {"StrikeSwinging", "StrikeCalled", "AutomaticStrike", 
+                    "FoulBallFieldable", "FoulBallNotFieldable", "FoulBall", "InPlay"}
+    strike_zone = {"x_min": -0.83, "x_max": 0.83, "z_min": 1.5, "z_max": 3.5}
+    swing_set  = {"StrikeSwinging", "InPlay", "FoulBallFieldable", "FoulBallNotFieldable", "FoulBall"}
+    chase_set  = swing_set  # same as swing_set for chases
+    woba_wts   = {'Out':0,'Walk':0.69,'HitByPitch':0.72,'Single':0.88,'Double':1.247,'Triple':1.578,'HomeRun':2.031}
 
 # Build per-pitch-type rows
-        results_list = []
-        for pt in df_player_filtered["AutoPitchType"].unique():
-            df_pt = df_player_filtered[df_player_filtered["AutoPitchType"] == pt]
-            total_pt = len(df_pt)
-            if total_pt == 0:
-                continue
+    results_list = []
+    for pt in df_player_filtered["AutoPitchType"].unique():
+        df_pt = df_player_filtered[df_player_filtered["AutoPitchType"] == pt]
+        total_pt = len(df_pt)
+        if total_pt == 0:
+            continue
 
     # usage & counts
-            overall_usage = total_pt / len(df_player_filtered) * 100
-            strikes      = df_pt["PitchCall"].isin(strike_set).sum()
-            strike_pct   = strikes / total_pt * 100
-            df_zone      = df_pt[
-                df_pt["PlateLocSide"].between(strike_zone["x_min"], strike_zone["x_max"]) &
-                df_pt["PlateLocHeight"].between(strike_zone["z_min"], strike_zone["z_max"])
-            ]
-            zone_pct     = len(df_zone) / total_pt * 100
+        overall_usage = total_pt / len(df_player_filtered) * 100
+        strikes      = df_pt["PitchCall"].isin(strike_set).sum()
+        strike_pct   = strikes / total_pt * 100
+        df_zone      = df_pt[
+            df_pt["PlateLocSide"].between(strike_zone["x_min"], strike_zone["x_max"]) &
+            df_pt["PlateLocHeight"].between(strike_zone["z_min"], strike_zone["z_max"])
+        ]
+        zone_pct     = len(df_zone) / total_pt * 100
 
-            whiffs       = df_pt["PitchCall"].eq("StrikeSwinging").sum()
-            swings       = df_pt["PitchCall"].isin(swing_set).sum()
-            whiff_pct    = (whiffs / swings * 100) if swings>0 else np.nan
+        whiffs       = df_pt["PitchCall"].eq("StrikeSwinging").sum()
+        swings       = df_pt["PitchCall"].isin(swing_set).sum()
+        whiff_pct    = (whiffs / swings * 100) if swings>0 else np.nan
 
-            zone_swings  = df_zone["PitchCall"].isin(swing_set).sum()
-            zone_whiffs  = df_zone["PitchCall"].eq("StrikeSwinging").sum()
-            zone_whiff_pct = (zone_whiffs / zone_swings * 100) if zone_swings>0 else np.nan
+        zone_swings  = df_zone["PitchCall"].isin(swing_set).sum()
+        zone_whiffs  = df_zone["PitchCall"].eq("StrikeSwinging").sum()
+        zone_whiff_pct = (zone_whiffs / zone_swings * 100) if zone_swings>0 else np.nan
 
-            csw_count    = df_pt["PitchCall"].isin({"StrikeCalled","StrikeSwinging"}).sum()
-            csw_pct      = csw_count / total_pt * 100
+        csw_count    = df_pt["PitchCall"].isin({"StrikeCalled","StrikeSwinging"}).sum()
+        csw_pct      = csw_count / total_pt * 100
 
-            df_outzone   = df_pt.drop(df_zone.index)
-            chase_count  = df_outzone["PitchCall"].isin(chase_set).sum()
-            chase_pct    = (chase_count / len(df_outzone) * 100) if len(df_outzone)>0 else np.nan
+        df_outzone   = df_pt.drop(df_zone.index)
+        chase_count  = df_outzone["PitchCall"].isin(chase_set).sum()
+        chase_pct    = (chase_count / len(df_outzone) * 100) if len(df_outzone)>0 else np.nan
 
-            df_inplay    = df_pt[df_pt["PitchCall"]=="InPlay"]
-            woba_con     = df_inplay["PlayResult"].map(lambda x: woba_wts.get(x,0)).sum() / len(df_inplay) if len(df_inplay)>0 else np.nan
-            hard_hit_pct = df_inplay["ExitSpeed"].ge(95).sum() / len(df_inplay) * 100 if len(df_inplay)>0 else np.nan
+        df_inplay    = df_pt[df_pt["PitchCall"]=="InPlay"]
+        woba_con     = df_inplay["PlayResult"].map(lambda x: woba_wts.get(x,0)).sum() / len(df_inplay) if len(df_inplay)>0 else np.nan
+        hard_hit_pct = df_inplay["ExitSpeed"].ge(95).sum() / len(df_inplay) * 100 if len(df_inplay)>0 else np.nan
             
-            if len(df_inplay)>0 and "Angle" in df_inplay:
-                df_bb = df_inplay.assign(
-                    BattedBallType=lambda d: d["Angle"].apply(
-                        lambda la: "GroundBall" if la<10
-                                   else "LineDrive" if la<25
-                                   else "FlyBall" if la<50
-                                   else "Popup"
-                    )
+        if len(df_inplay)>0 and "Angle" in df_inplay:
+            df_bb = df_inplay.assign(
+                BattedBallType=lambda d: d["Angle"].apply(
+                    lambda la: "GroundBall" if la<10
+                                else "LineDrive" if la<25
+                                else "FlyBall" if la<50
+                                else "Popup"
                 )
-                valid = df_bb["BattedBallType"].notna().sum()
-                gb = df_bb["BattedBallType"].eq("GroundBall").sum()/valid*100 if valid>0 else np.nan
-                ld = df_bb["BattedBallType"].eq("LineDrive").sum()/valid*100 if valid>0 else np.nan
-                fb = df_bb["BattedBallType"].eq("FlyBall").sum()/valid*100 if valid>0 else np.nan
-            else:
-                gb = ld = fb = np.nan
+            )
+            valid = df_bb["BattedBallType"].notna().sum()
+            gb = df_bb["BattedBallType"].eq("GroundBall").sum()/valid*100 if valid>0 else np.nan
+            ld = df_bb["BattedBallType"].eq("LineDrive").sum()/valid*100 if valid>0 else np.nan
+            fb = df_bb["BattedBallType"].eq("FlyBall").sum()/valid*100 if valid>0 else np.nan
+        else:
+            gb = ld = fb = np.nan
     # batted-ball types
-            if "Angle" in df_inplay.columns and len(df_inplay)>0:
+        if "Angle" in df_inplay.columns and len(df_inplay)>0:
                 # --- compute overall GB/LD/FB on all InPlay batted balls ---
-                df_bb_all = (
-                    df_player_filtered[df_player_filtered["PitchCall"]=="InPlay"]
-                      .assign(BattedBallType=lambda d: d["Angle"].apply(
-                          lambda la: "GroundBall" if la<10
-                                     else "LineDrive" if la<25
-                                     else "FlyBall" if la<50
-                                     else "Popup"
-                      ))
-                )
-                valid_all = df_bb_all["BattedBallType"].notna().sum()
-                gb_all = df_bb_all["BattedBallType"].eq("GroundBall").sum()/valid_all*100 if valid_all>0 else np.nan
-                ld_all = df_bb_all["BattedBallType"].eq("LineDrive").sum()/valid_all*100 if valid_all>0 else np.nan
-                fb_all = df_bb_all["BattedBallType"].eq("FlyBall").sum()/valid_all*100 if valid_all>0 else np.nan
+            df_bb_all = (
+                df_player_filtered[df_player_filtered["PitchCall"]=="InPlay"]
+                    .assign(BattedBallType=lambda d: d["Angle"].apply(
+                        lambda la: "GroundBall" if la<10
+                                else "LineDrive" if la<25
+                                else "FlyBall" if la<50
+                                else "Popup"
+                    ))
+            )
+            valid_all = df_bb_all["BattedBallType"].notna().sum()
+            gb_all = df_bb_all["BattedBallType"].eq("GroundBall").sum()/valid_all*100 if valid_all>0 else np.nan
+            ld_all = df_bb_all["BattedBallType"].eq("LineDrive").sum()/valid_all*100 if valid_all>0 else np.nan
+            fb_all = df_bb_all["BattedBallType"].eq("FlyBall").sum()/valid_all*100 if valid_all>0 else np.nan
 
 
-            rv_per_100 = df_pt["run_value"].sum()/total_pt*100 if total_pt>0 else np.nan
+        rv_per_100 = df_pt["run_value"].sum()/total_pt*100 if total_pt>0 else np.nan
 
     # append row
-            results_list.append({
-                "Count":           total_pt,
-                "Pitch Type":      pt,
-                "Overall Usage %": round(overall_usage,1),
-                "Strike%":         round(strike_pct,1),
-                "Zone%":           round(zone_pct,1),
-                "Whiff%":          round(whiff_pct,1) if not np.isnan(whiff_pct) else np.nan,
-                "Zone-Whiff%":     round(zone_whiff_pct,1) if not np.isnan(zone_whiff_pct) else np.nan,
-                "CSW%":            round(csw_pct,1),
-                "Chase%":          round(chase_pct,1) if not np.isnan(chase_pct) else np.nan,
-                "Wobacon":         round(woba_con,3) if not np.isnan(woba_con) else np.nan,
-                "Hard Hit%":       round(hard_hit_pct,1) if not np.isnan(hard_hit_pct) else np.nan,
-                "GB%":             round(gb,1) if not np.isnan(gb) else np.nan,
-                "LD%":             round(ld,1) if not np.isnan(ld) else np.nan,
-                "FB%":             round(fb,1) if not np.isnan(fb) else np.nan,
-                "RV/100":          round(rv_per_100,1) if not np.isnan(rv_per_100) else np.nan
-            })
+        results_list.append({
+            "Count":           total_pt,
+            "Pitch Type":      pt,
+            "Overall Usage %": round(overall_usage,1),
+            "Strike%":         round(strike_pct,1),
+            "Zone%":           round(zone_pct,1),
+            "Whiff%":          round(whiff_pct,1) if not np.isnan(whiff_pct) else np.nan,
+            "Zone-Whiff%":     round(zone_whiff_pct,1) if not np.isnan(zone_whiff_pct) else np.nan,
+            "CSW%":            round(csw_pct,1),
+            "Chase%":          round(chase_pct,1) if not np.isnan(chase_pct) else np.nan,
+            "Wobacon":         round(woba_con,3) if not np.isnan(woba_con) else np.nan,
+            "Hard Hit%":       round(hard_hit_pct,1) if not np.isnan(hard_hit_pct) else np.nan,
+            "GB%":             round(gb,1) if not np.isnan(gb) else np.nan,
+            "LD%":             round(ld,1) if not np.isnan(ld) else np.nan,
+            "FB%":             round(fb,1) if not np.isnan(fb) else np.nan,
+            "RV/100":          round(rv_per_100,1) if not np.isnan(rv_per_100) else np.nan
+        })
 
 # build DataFrame & sort
         results_df = pd.DataFrame(results_list).sort_values("Overall Usage %", ascending=False)
