@@ -20,7 +20,7 @@ st.success("Brewster Whitecaps Hitters")
 # -------------------------
 # Sidebar Dropdowns for Team/Position/Player Selection
 # -------------------------
-teams = sorted(df["hitter_cape_team"].dropna().unique())
+teams = ["Brewster"]
 col1, col2, col3 = st.columns(3)
 with col1:
     selected_team = st.selectbox("Select Team", teams)
