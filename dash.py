@@ -7,28 +7,13 @@ import matplotlib.cm as cm
 from matplotlib.patches import Rectangle
 import seaborn as sns
 
-df = pd.read_csv('Brewster_Hitters_NCAA_2025.csv')
+df = pd.read_csv('Brewster_Hitters_NCAA_2025_.csv')
 
 # -------------------------
 # Page & Login Configuration
 # -------------------------
 st.set_page_config(page_title="Brewster Hitters", layout="wide")
 # Persistent small logo in the top-right corner.
-st.markdown(
-    """
-    <style>
-    .top-logo {
-        position: fixed;
-        top: 10px;
-        right: 10px;
-        width: 50px;
-        z-index: 100;
-    }
-    </style>
-    <img src="Penn-Quakers-Symbol.png" class="top-logo">
-    """,
-    unsafe_allow_html=True
-)
 
 st.success("Brewster Whitecaps Hitters")
 
