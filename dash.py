@@ -25,16 +25,13 @@ col1, col2, col3 = st.columns(3)
 with col1:
     selected_team = st.selectbox("Select Team", teams)
 with col2:
-    position = st.selectbox("Select Position", ["Batter", "Pitcher"])
+    position = st.selectbox("Select Position", ["Pitcher", "Batter"])
 with col3:
-    if position == "Batter":
-        player_options = df[df["hitter_cape_team"] == selected_team]["Batter"].unique()
-    else:
+    if position == "Pitcher":
         player_options = df[df["pitcher_cape_team"] == selected_team]["Pitcher"].unique()
-    if len(player_options) == 0:
-        selected_player = st.selectbox("Select Player", ["No players available"])
     else:
-        selected_player = st.selectbox("Select Player", player_options)
+        player_options = df[df["hitter_cape_team"] == selected_team]["Batter"].unique()
+
 
 st.write(f"You selected Team: **{selected_team}**, Position: **{position}**, Player: **{selected_player}**")
 
