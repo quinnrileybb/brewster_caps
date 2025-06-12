@@ -54,87 +54,83 @@ else:
 st.write(f"**Pitcher Throws:** {pt_hand}")
 
 
-if position == "Pitcher":
+
     # Create tabs for the Pitcher section.
-    tabs = st.tabs(["Data", "Heatmaps", "Visuals", "Pitch Analyzer"])
+tabs = st.tabs(["Data", "Heatmaps", "Visuals", "Pitch Analyzer"])
 
-
-    # =========================
-    # Data Tab
-    # =========================
-    with tabs[0]:
-        st.header("2025")
+with tabs[0]:
+    st.header("2025")
         
-        pitcher_data = df[df["Pitcher"] == selected_player]
-        games = pitcher_data["GameID"].nunique()
-        games_started = pitcher_data.groupby("GameID")["Inning"].min().eq(1).sum()
-        total_outs = pitcher_data["OutsOnPlay"].sum()
-        IP = total_outs / 3
-        pitcher_data["PlayResultCleaned"] = pitcher_data["PlayResult"].copy()
-        pitcher_data.loc[pitcher_data["KorBB"].isin(["Strikeout", "Walk"]), "PlayResultCleaned"] = pitcher_data["KorBB"]
-        pitcher_data_clean = pitcher_data[pitcher_data["PlayResultCleaned"] != "Undefined"]
-        pa = pitcher_data_clean.shape[0]
-        strikeouts = pitcher_data_clean[pitcher_data_clean["PlayResultCleaned"] == "Strikeout"].shape[0]
-        walks = pitcher_data_clean[pitcher_data_clean["PlayResultCleaned"] == "Walk"].shape[0]
-        hits = pitcher_data_clean[pitcher_data_clean["PlayResultCleaned"].isin(["Single", "HomeRun", "Double", "Triple"])].shape[0]
-        K_perc = (strikeouts / pa) * 100 if pa > 0 else 0
-        BB_perc = (walks / pa) * 100 if pa > 0 else 0
-        WHIP = (walks + hits) / IP if IP != 0 else 0
-        HR = pitcher_data[pitcher_data["PlayResultCleaned"] == "HomeRun"].shape[0]
-        FIP = ((13 * HR + 3 * walks - 2 * strikeouts) / IP + 3) if IP != 0 else 0
-        basic_stats = {
-            "Games": [games],
-            "Games Started": [games_started],
-            "IP": [round(IP, 1)],
-            "K%": [round(K_perc, 1)],
-            "BB%": [round(BB_perc, 1)],
-            "FIP": [round(FIP, 2)]
-        }
+    pitcher_data = df[df["Pitcher"] == selected_player]
+    games = pitcher_data["GameID"].nunique()
+    games_started = pitcher_data.groupby("GameID")["Inning"].min().eq(1).sum()
+    total_outs = pitcher_data["OutsOnPlay"].sum()
+    IP = total_outs / 3
+    pitcher_data["PlayResultCleaned"] = pitcher_data["PlayResult"].copy()
+    pitcher_data.loc[pitcher_data["KorBB"].isin(["Strikeout", "Walk"]), "PlayResultCleaned"] = pitcher_data["KorBB"]
+    pitcher_data_clean = pitcher_data[pitcher_data["PlayResultCleaned"] != "Undefined"]
+    pa = pitcher_data_clean.shape[0]
+    strikeouts = pitcher_data_clean[pitcher_data_clean["PlayResultCleaned"] == "Strikeout"].shape[0]
+    walks = pitcher_data_clean[pitcher_data_clean["PlayResultCleaned"] == "Walk"].shape[0]
+    hits = pitcher_data_clean[pitcher_data_clean["PlayResultCleaned"].isin(["Single", "HomeRun", "Double", "Triple"])].shape[0]
+    K_perc = (strikeouts / pa) * 100 if pa > 0 else 0
+    BB_perc = (walks / pa) * 100 if pa > 0 else 0
+    WHIP = (walks + hits) / IP if IP != 0 else 0
+    HR = pitcher_data[pitcher_data["PlayResultCleaned"] == "HomeRun"].shape[0]
+    FIP = ((13 * HR + 3 * walks - 2 * strikeouts) / IP + 3) if IP != 0 else 0
+    basic_stats = {
+        "Games": [games],
+        "Games Started": [games_started],
+        "IP": [round(IP, 1)],
+        "K%": [round(K_perc, 1)],
+        "BB%": [round(BB_perc, 1)],
+        "FIP": [round(FIP, 2)]
+    }
 
 
 
-        stats_df = pd.DataFrame(basic_stats)
-        st.table(stats_df)
+    stats_df = pd.DataFrame(basic_stats)
+    st.table(stats_df)
 
         # Create CountSituation column.
         # Create CountSituation column.
-        def get_count_situation(row):
-            if row['Balls'] == 0 and row['Strikes'] == 0:
-                return "0-0"
-            elif row['Strikes'] == 2:
-                return "2Strk"
-            else:
-                return "Other"
+    def get_count_situation(row):
+        if row['Balls'] == 0 and row['Strikes'] == 0:
+            return "0-0"
+        elif row['Strikes'] == 2:
+            return "2Strk"
+        else:
+            return "Other"
 
-        df_player = pitcher_data.copy()
-        df_player['CountSituation'] = df_player.apply(get_count_situation, axis=1)
+    df_player = pitcher_data.copy()
+    df_player['CountSituation'] = df_player.apply(get_count_situation, axis=1)
 
 # Convert the Tilt column to numeric.
 # Here we assume that you want to convert a string like "12:45" to 12.45.
-        def convert_tilt(tilt_str):
-            try:
-                parts = tilt_str.split(":")
+    def convert_tilt(tilt_str):
+        try:
+            parts = tilt_str.split(":")
         # Combine parts as a decimal number.
-                return float(parts[0]) + float(parts[1]) / 100.0
-            except Exception as e:
-                return np.nan
+            return float(parts[0]) + float(parts[1]) / 100.0
+        except Exception as e:
+            return np.nan
 
-        df_player["Tilt_numeric"] = df_player["Tilt"].apply(convert_tilt)
+    df_player["Tilt_numeric"] = df_player["Tilt"].apply(convert_tilt)
 
 
 
         # Create extended CountSituation column.
-        def get_count_situation_extended(row):
-            if row['Balls'] == 0 and row['Strikes'] == 0:
-                return "0-0"
-            elif row['Strikes'] == 2:
-                return "2Strk"
-            elif row['Balls'] > row['Strikes']:
-                return "Ahead"
-            elif row['Strikes'] > row['Balls']:
-                return "Behind"
-            else:
-                return "Other"
+    def get_count_situation_extended(row):
+        if row['Balls'] == 0 and row['Strikes'] == 0:
+            return "0-0"
+        elif row['Strikes'] == 2:
+            return "2Strk"
+        elif row['Balls'] > row['Strikes']:
+            return "Ahead"
+        elif row['Strikes'] > row['Balls']:
+            return "Behind"
+        else:
+            return "Other"
 
         df_player['CountSituation'] = df_player.apply(get_count_situation_extended, axis=1)
 
