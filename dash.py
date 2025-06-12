@@ -12,10 +12,10 @@ df = pd.read_csv('Brewster_Hitters_NCAA_2025_.csv')
 # -------------------------
 # Page & Login Configuration
 # -------------------------
-st.set_page_config(page_title="Brewster Hitters", layout="wide")
+st.set_page_config(page_title="Brewster Pitchers", layout="wide")
 # Persistent small logo in the top-right corner.
 
-st.success("Brewster Whitecaps Hitters")
+st.success("Brewster Whitecaps Pitchers")
 
 # -------------------------
 # Sidebar Dropdowns for Team/Position/Player Selection
@@ -30,7 +30,7 @@ with col3:
     if position == "Batter":
         player_options = df[df["hitter_cape_team"] == selected_team]["Batter"].unique()
     else:
-        player_options = df[df["PitcherTeam"] == selected_team]["Pitcher"].unique()
+        player_options = df[df["pitcher_cape_team"] == selected_team]["Pitcher"].unique()
     if len(player_options) == 0:
         selected_player = st.selectbox("Select Player", ["No players available"])
     else:
