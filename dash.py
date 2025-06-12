@@ -12,7 +12,7 @@ df = pd.read_csv('Brewster_Hitters_NCAA_2025.csv')
 # -------------------------
 # Page & Login Configuration
 # -------------------------
-st.set_page_config(page_title="Brewster", layout="wide")
+st.set_page_config(page_title="Brewster Hitters", layout="wide")
 # Persistent small logo in the top-right corner.
 st.markdown(
     """
