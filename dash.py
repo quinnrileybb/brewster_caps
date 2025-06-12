@@ -21,61 +21,39 @@ st.success("Brewster Whitecaps Pitchers")
 # Sidebar Dropdowns for Team/Position/Player Selection
 # -------------------------
 teams = ["Brewster"]
-col1, col2, col3 = st.columns(3)
+col1, col2 = st.columns(2)
 with col1:
     selected_team = st.selectbox("Select Team", teams)
+
 with col2:
-    position = st.selectbox("Select Position", ["Pitcher", "Batter"])
-with col3:
-    if position == "Pitcher":
-        player_options = df[df["pitcher_cape_team"] == selected_team]["Pitcher"].unique()
+    # only pitchers
+    pitcher_list = df.loc[
+        df["pitcher_cape_team"] == selected_team, 
+        "Pitcher"
+    ].unique()
+    if len(pitcher_list) == 0:
+        selected_player = st.selectbox("Select Pitcher", ["No pitchers available"])
     else:
-        player_options = df[df["hitter_cape_team"] == selected_team]["Batter"].unique()
-    else:
-        player_options = df[df["pitcher_cape_team"] == selected_team]["Pitcher"].unique()
-    if len(player_options) == 0:
-        selected_player = st.selectbox("Select Player", ["No players available"])
-    else:
-        selected_player = st.selectbox("Select Player", player_options)
+        selected_player = st.selectbox("Select Pitcher", pitcher_list)
+
+st.write(f"You selected Team: **{selected_team}**, Pitcher: **{selected_player}**")
+
+# — Display throwing hand —
+throws = (
+    df.loc[df["Pitcher"] == selected_player, "PitcherThrows"]
+      .dropna()
+      .unique()
+      .tolist()
+)
+if len(throws) == 1:
+    pt_hand = throws[0]
+elif len(throws) > 1:
+    pt_hand = "Ambidextrous"
+else:
+    pt_hand = "Unknown"
+st.write(f"**Pitcher Throws:** {pt_hand}")
 
 
-
-st.write(f"You selected Team: **{selected_team}**, Position: **{position}**, Player: **{selected_player}**")
-
-
-if position == "Batter":
-    # Determine and display the batter’s handedness
-    sides = (
-        df.loc[df["Batter"] == selected_player, "BatterSide"]
-          .dropna()
-          .unique()
-          .tolist()
-    )
-    if len(sides) == 1:
-        handed = sides[0]  # “Left” or “Right”
-    elif len(sides) > 1:
-        handed = "Switch"
-    else:
-        handed = "Unknown"
-    st.write(f"**Batter Handedness:** {handed}")
-
-elif position == "Pitcher":
-    throws = (
-        df.loc[df["Pitcher"] == selected_player, "PitcherThrows"]
-          .dropna().unique().tolist()
-    )
-    # (almost always length‐1, but just in case…)
-    if len(throws) == 1:
-        pt_hand = throws[0]        # "Left" or "Right"
-    elif len(throws) > 1:
-        pt_hand = "Ambidextrous"
-    else:
-        pt_hand = "Unknown"
-    st.write(f"**Pitcher Throws:** {pt_hand}")
-
-# -------------------------
-# Branch: If Batter, show In Progress; if Pitcher, show full section.
-# -------------------------
 if position == "Pitcher":
     # Create tabs for the Pitcher section.
     tabs = st.tabs(["Data", "Heatmaps", "Visuals", "Pitch Analyzer"])
