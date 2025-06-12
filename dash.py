@@ -28,7 +28,7 @@ with col2:
     position = st.selectbox("Select Position", ["Batter", "Pitcher"])
 with col3:
     if position == "Batter":
-        player_options = df[df["BatterTeam"] == selected_team]["Batter"].unique()
+        player_options = df[df["hitter_cape_team"] == selected_team]["Batter"].unique()
     else:
         player_options = df[df["PitcherTeam"] == selected_team]["Pitcher"].unique()
     if len(player_options) == 0:
