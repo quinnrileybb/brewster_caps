@@ -7,7 +7,7 @@ import matplotlib.cm as cm
 from matplotlib.patches import Rectangle
 import seaborn as sns
 
-df = pd.read_csv('Brewster_Pitchers_NCAA_2025.csv')
+df = pd.read_csv('YarmouthDennis_Pitchers_NCAA_2025.csv')
 
 # -------------------------
 # Page & Login Configuration
@@ -15,12 +15,12 @@ df = pd.read_csv('Brewster_Pitchers_NCAA_2025.csv')
 st.set_page_config(page_title="Brewster Pitchers", layout="wide")
 # Persistent small logo in the top-right corner.
 
-st.success("Brewster Whitecaps Pitchers")
+st.success("Yarmouth-Dennis Pitchers")
 
 # -------------------------
 # Sidebar Dropdowns for Team/Position/Player Selection
 # -------------------------
-teams = ["Brewster"]
+teams = ["Yarmouth-Dennis"]
 col1, col2 = st.columns(2)
 with col1:
     selected_team = st.selectbox("Select Team", teams)
