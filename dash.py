@@ -7,7 +7,7 @@ import matplotlib.cm as cm
 from matplotlib.patches import Rectangle
 import seaborn as sns
 
-df = pd.read_csv('hyannis_Hitters_NCAA_2025_.csv')
+df = pd.read_csv('hyannis_Hitters_NCAA_2025.csv')
 
 # -------------------------
 # Page & Login Configuration
