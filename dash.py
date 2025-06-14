@@ -390,7 +390,7 @@ if position == "Batter":
             else:
                 return pd.DataFrame()
 
-        categories = ["Overall", "Fastball", "Breaking Ball", "Offspeed", "90+", "High Spin"]
+        categories = ["Overall", "Fastball", "Breaking Ball", "Offspeed", "93+", "High Spin"]
 
 # Define a simple classifier function for batted ball type based on the Angle column.
         def classify_batted_ball(la):
