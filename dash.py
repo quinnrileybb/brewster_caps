@@ -12,7 +12,7 @@ df = pd.read_csv('Falmouth_Pitchers_NCAA_2025.csv')
 # -------------------------
 # Page & Login Configuration
 # -------------------------
-st.set_page_config(page_title="Brewster Pitchers", layout="wide")
+st.set_page_config(page_title="Falmouth Pitchers", layout="wide")
 # Persistent small logo in the top-right corner.
 
 st.success("Falmouth Commodores Pitchers")
