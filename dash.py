@@ -267,13 +267,13 @@ if position == "Batter":
         contact_set = {"InPlay", "FoulBall", "FoulBallFieldable", "FoulBallNotFieldable"}
     
         # Define categories.
-        categories = ["Overall", "Fastball", "Breaking Ball", "Offspeed", "90+", "High Spin"]
+        categories = ["Overall", "Fastball", "Breaking Ball", "Offspeed", "93+", "High Spin"]
     
         def get_category_data(data, category):
             if category == "Fastball":
                 return data[(data["AutoPitchType"].isin(["Four-Seam", "Sinker"])) | (data["RelSpeed"] > 85)]
-            elif category == "90+":
-                return data[data["RelSpeed"] >= 90]
+            elif category == "93+":
+                return data[data["RelSpeed"] >= 93]
             elif category == "High Spin":
                 return data[data["SpinRate"] > 2400]
             elif category == "Breaking Ball":
@@ -485,14 +485,14 @@ if position == "Batter":
             ev_data = ev_data[ev_data["PitcherThrows"] == "Right"].copy()
 
 # Define your categories
-        categories = ["Overall", "Fastball", "Breaking Ball", "Offspeed", "90+", "High Spin"]
+        categories = ["Overall", "Fastball", "Breaking Ball", "Offspeed", "93+", "High Spin"]
 
 # The same helper function used in your earlier code to segregate data by pitch type/speed.
         def get_category_data(data, category):
             if category == "Fastball":
                 return data[(data["AutoPitchType"].isin(["Four-Seam", "Sinker"])) | (data["RelSpeed"] > 85)]
-            elif category == "90+":
-                return data[data["RelSpeed"] >= 90]
+            elif category == "93+":
+                return data[data["RelSpeed"] >= 93]
             elif category == "High Spin":
                 return data[data["SpinRate"] > 2400]
             elif category == "Breaking Ball":
@@ -617,7 +617,7 @@ if position == "Batter":
     # column filters (pitch categories)
         col_filters = {
             "Overall":      lambda df: df,
-            "Fastball":     lambda df: df[(df["AutoPitchType"].isin(["Four-Seam","Sinker"])) | (df["RelSpeed"]>85)],
+            "Fastball":     lambda df: df[(df["AutoPitchType"].isin(["Four-Seam","Sinker"]))],
             "Breaking Ball":lambda df: df[df["AutoPitchType"].isin(["Slider","Curveball","Cutter"])],
             "Offspeed":     lambda df: df[df["AutoPitchType"].isin(["Splitter","Changeup"])]
         }
