@@ -271,7 +271,7 @@ if position == "Batter":
     
         def get_category_data(data, category):
             if category == "Fastball":
-                return data[(data["AutoPitchType"].isin(["Four-Seam", "Sinker"])) | (data["RelSpeed"] > 85)]
+                return data[(data["AutoPitchType"].isin(["Four-Seam", "Sinker"]))]
             elif category == "93+":
                 return data[data["RelSpeed"] >= 93]
             elif category == "High Spin":
@@ -390,7 +390,7 @@ if position == "Batter":
             else:
                 return pd.DataFrame()
 
-        categories = ["Overall", "Fastball", "Breaking Ball", "Offspeed", "90+", "High Spin"]
+        categories = ["Overall", "Fastball", "Breaking Ball", "Offspeed", "93+", "High Spin"]
 
 # Define a simple classifier function for batted ball type based on the Angle column.
         def classify_batted_ball(la):
@@ -490,7 +490,7 @@ if position == "Batter":
 # The same helper function used in your earlier code to segregate data by pitch type/speed.
         def get_category_data(data, category):
             if category == "Fastball":
-                return data[(data["AutoPitchType"].isin(["Four-Seam", "Sinker"])) | (data["RelSpeed"] > 85)]
+                return data[(data["AutoPitchType"].isin(["Four-Seam", "Sinker"]))]
             elif category == "93+":
                 return data[data["RelSpeed"] >= 93]
             elif category == "High Spin":
