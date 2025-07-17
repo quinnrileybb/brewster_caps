@@ -13,13 +13,13 @@ import gdown
 def load_csv_from_drive_folder(folder_id: str, output_dir: str = "data") -> pd.DataFrame:
     if not os.path.exists(output_dir):
         # downloads every file in the folder to ./data/
-        gdown.download_folder(folder_url, output=output_dir, quiet=False, use_cookies=False)
+        gdown.download_folder(folder_id, output=output_dir, quiet=False, use_cookies=False)
     # scan for the first CSV in that folder
     for root, _, files in os.walk(output_dir):
         for fn in files:
             if fn.lower().endswith(".csv"):
                 return pd.read_csv(os.path.join(root, fn))
-    st.error(f"No CSV found in folder {folder_url!r}")
+    st.error(f"No CSV found in folder {folder_id!r}")
     return pd.DataFrame()
 
 FOLDER_ID = "16xL9hvtVH1p2g8J_F8OSTiyWW1YlB_tF"
