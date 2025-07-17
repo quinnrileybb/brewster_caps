@@ -11,37 +11,21 @@ import gdown
 
 @st.cache_data(show_spinner=False)
 def load_csv_from_drive_folder(folder_url: str, output_dir: str = "data") -> pd.DataFrame:
-    """
-    Downloads everything in the given Google‑Drive folder to `output_dir/`
-    (skipping the download if the folder already exists), then finds the
-    first .csv inside and returns it as a DataFrame.
-    """
     if not os.path.exists(output_dir):
-        # this will grab every item in the folder (must be "Anyone with link can view")
         gdown.download_folder(folder_url, output=output_dir, quiet=False, use_cookies=False)
-    
-    # scan for the first .csv
+    # find the first CSV in the folder
     for root, _, files in os.walk(output_dir):
         for fn in files:
             if fn.lower().endswith(".csv"):
-                path = os.path.join(root, fn)
-                return pd.read_csv(path)
-    
+                return pd.read_csv(os.path.join(root, fn))
     st.error(f"No CSV found in folder {folder_url!r}")
     return pd.DataFrame()
 
-# **Use it**:
 DRIVE_FOLDER = "https://drive.google.com/drive/folders/16xL9hvtVH1p2g8J_F8OSTiyWW1YlB_tF"
 df = load_csv_from_drive_folder(DRIVE_FOLDER)
 
-# -------------------------
-# Page & Login Configuration
-# -------------------------
 st.set_page_config(page_title="Cape 2025", layout="wide")
-# Persistent small logo in the top-right corner.
-
 st.success("Cape Data 2025")
-
 # -------------------------
 # Sidebar Dropdowns for Team/Position/Player Selection
 # -------------------------
