@@ -10,7 +10,7 @@ import os
 import gdown
 
 @st.cache_data(show_spinner=False)
-def load_csv_from_drive_folder(folder_url: str, output_dir: str = "data") -> pd.DataFrame:
+def load_csv_from_drive_folder(folder_id: str, output_dir: str = "data") -> pd.DataFrame:
     if not os.path.exists(output_dir):
         # downloads every file in the folder to ./data/
         gdown.download_folder(folder_url, output=output_dir, quiet=False, use_cookies=False)
@@ -22,15 +22,15 @@ def load_csv_from_drive_folder(folder_url: str, output_dir: str = "data") -> pd.
     st.error(f"No CSV found in folder {folder_url!r}")
     return pd.DataFrame()
 
-DRIVE_FOLDER = "https://drive.google.com/drive/folders/16xL9hvtVH1p2g8J_F8OSTiyWW1YlB_tF"
-df = load_csv_from_drive_folder(DRIVE_FOLDER)
+FOLDER_ID = "16xL9hvtVH1p2g8J_F8OSTiyWW1YlB_tF"
+df = load_csv_from_drive_folder(FOLDER_ID)
 
 st.set_page_config(page_title="Cape 2025", layout="wide")
 st.success("Cape Data 2025")
 # -------------------------
 # Sidebar Dropdowns for Team/Position/Player Selection
 # -------------------------
-teams = ["Brewster"]
+teams = ["BRE_WHI"]
 col1, col2, col3 = st.columns(3)
 with col1:
     selected_team = st.selectbox("Select Team", teams)
