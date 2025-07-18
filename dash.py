@@ -284,15 +284,15 @@ if position == "Batter":
     
         def get_category_data(data, category):
             if category == "Fastball":
-                return data[(data["AutoPitchType"].isin(["Four-Seam", "Sinker"])) | (data["RelSpeed"] > 85)]
+                return data[(data["TaggedPitchTypePitchType"].isin(["Four-Seam", "Sinker"])) | (data["RelSpeed"] > 85)]
             elif category == "93+":
                 return data[data["RelSpeed"] >= 93]
             elif category == "High Spin":
                 return data[data["SpinRate"] > 2400]
             elif category == "Breaking Ball":
-                return data[data["AutoPitchType"].isin(["Slider", "Curveball", "Cutter"])]
+                return data[data["TaggedPitchTypePitchType"].isin(["Slider", "Curveball", "Cutter"])]
             elif category == "Offspeed":
-                return data[data["AutoPitchType"].isin(["Splitter", "Changeup"])]
+                return data[data["TaggedPitchTypePitchType"].isin(["Splitter", "Changeup"])]
             elif category == "Overall":
                 return data
             else:
@@ -389,15 +389,15 @@ if position == "Batter":
 
         def get_category_data(data, category):
             if category == "Fastball":
-                return data[(data["AutoPitchType"].isin(["Four-Seam", "Sinker"]))]
+                return data[(data["TaggedPitchTypePitchType"].isin(["Four-Seam", "Sinker"]))]
             elif category == "93+":
                 return data[data["RelSpeed"] >= 93]
             elif category == "High Spin":
                 return data[data["SpinRate"] > 2400]
             elif category == "Breaking Ball":
-                return data[data["AutoPitchType"].isin(["Slider", "Curveball", "Cutter"])]
+                return data[data["TaggedPitchTypePitchType"].isin(["Slider", "Curveball", "Cutter"])]
             elif category == "Offspeed":
-                return data[data["AutoPitchType"].isin(["Splitter", "Changeup"])]
+                return data[data["TaggedPitchTypePitchType"].isin(["Splitter", "Changeup"])]
             elif category == "Overall":
                 return data
             else:
@@ -503,15 +503,15 @@ if position == "Batter":
 # The same helper function used in your earlier code to segregate data by pitch type/speed.
         def get_category_data(data, category):
             if category == "Fastball":
-                return data[(data["AutoPitchType"].isin(["Four-Seam", "Sinker"])) | (data["RelSpeed"] > 85)]
+                return data[(data["TaggedPitchTypePitchType"].isin(["Four-Seam", "Sinker"])) | (data["RelSpeed"] > 85)]
             elif category == "93+":
                 return data[data["RelSpeed"] >= 93]
             elif category == "High Spin":
                 return data[data["SpinRate"] > 2400]
             elif category == "Breaking Ball":
-                return data[data["AutoPitchType"].isin(["Slider", "Curveball", "Cutter"])]
+                return data[data["TaggedPitchTypePitchType"].isin(["Slider", "Curveball", "Cutter"])]
             elif category == "Offspeed":
-                return data[data["AutoPitchType"].isin(["Splitter", "Changeup"])]
+                return data[data["TaggedPitchTypePitchType"].isin(["Splitter", "Changeup"])]
             elif category == "Overall":
                 return data
             else:
@@ -630,9 +630,9 @@ if position == "Batter":
     # column filters (pitch categories)
         col_filters = {
             "Overall":      lambda df: df,
-            "Fastball":     lambda df: df[(df["AutoPitchType"].isin(["Four-Seam","Sinker"]))],
-            "Breaking Ball":lambda df: df[df["AutoPitchType"].isin(["Slider","Curveball","Cutter"])],
-            "Offspeed":     lambda df: df[df["AutoPitchType"].isin(["Splitter","Changeup"])]
+            "Fastball":     lambda df: df[(df["TaggedPitchTypePitchType"].isin(["Four-Seam","Sinker"]))],
+            "Breaking Ball":lambda df: df[df["TaggedPitchTypePitchType"].isin(["Slider","Curveball","Cutter"])],
+            "Offspeed":     lambda df: df[df["TaggedPitchTypePitchType"].isin(["Splitter","Changeup"])]
         }
         col_names = list(col_filters.keys())
 
@@ -798,11 +798,11 @@ if position == "Batter":
 
     # apply category filter
             if selected_category == "Fastball":
-                df_pl = df_pl[(df_pl["AutoPitchType"].isin(["Four-Seam","Sinker"])) | (df_pl["RelSpeed"] > 85)]
+                df_pl = df_pl[(df_pl["TaggedPitchTypePitchType"].isin(["Four-Seam","Sinker"])) | (df_pl["RelSpeed"] > 85)]
             elif selected_category == "Breaking Ball":
-                df_pl = df_pl[df_pl["AutoPitchType"].isin(["Slider","Curveball","Cutter"])]
+                df_pl = df_pl[df_pl["TaggedPitchTypePitchType"].isin(["Slider","Curveball","Cutter"])]
             elif selected_category == "Offspeed":
-                df_pl = df_pl[df_pl["AutoPitchType"].isin(["Splitter","Changeup"])]
+                df_pl = df_pl[df_pl["TaggedPitchTypePitchType"].isin(["Splitter","Changeup"])]
     # else "Overall" leaves df_pl unchanged
 
     # apply throws filter
@@ -1163,8 +1163,8 @@ else:
 
 # Now compute the pitch usage metrics for each pitch type.
         pitch_usage_data = []
-        for pt in sorted(df_player['AutoPitchType'].unique(), key=lambda x: str(x)):
-            df_pt = df_player[df_player["AutoPitchType"] == pt]
+        for pt in sorted(df_player['TaggedPitchTypePitchType'].unique(), key=lambda x: str(x)):
+            df_pt = df_player[df_player["TaggedPitchTypePitchType"] == pt]
             count = len(df_pt)
             overall_usage = (count / all_pitch_total) * 100 if all_pitch_total > 0 else np.nan
 
@@ -1250,10 +1250,10 @@ else:
          
 
         # Third Table: Pitch Metrics
-        overall_counts = df_player['AutoPitchType'].value_counts()
+        overall_counts = df_player['TaggedPitchTypePitchType'].value_counts()
         total_pitches = len(df_player)
         overall_usage = (overall_counts / total_pitches * 100).round(1)
-        grouped = df_player.groupby("AutoPitchType").agg({
+        grouped = df_player.groupby("TaggedPitchTypePitchType").agg({
             "RelSpeed": ["mean", "max"],
             "SpinRate": "mean",
             "Tilt_numeric": "mean",
@@ -1267,7 +1267,7 @@ else:
         })
         grouped.columns = ["MPH", "Top MPH", "RPMs", "Tilt", "IVB", "HB", "VAA", "HAA", "Extension", "RelHeight", "RelSide"]
         grouped["Overall Usage %"] = overall_usage
-        grouped = grouped.reset_index().rename(columns={"AutoPitchType": "Pitch Type"})
+        grouped = grouped.reset_index().rename(columns={"TaggedPitchTypePitchType": "Pitch Type"})
         grouped = grouped[["Pitch Type", "Overall Usage %", "MPH", "Top MPH", "RPMs", "Tilt", "IVB", "HB", "VAA", "HAA", "Extension", "RelHeight", "RelSide"]]
         for col in ["Overall Usage %", "MPH", "Top MPH", "RPMs", "Tilt", "IVB", "HB", "VAA", "HAA", "Extension", "RelHeight", "RelSide"]:
             grouped[col] = grouped[col].round(1)
@@ -1393,8 +1393,8 @@ else:
 
 # Build per-pitch-type rows
         results_list = []
-        for pt in df_player_filtered["AutoPitchType"].unique():
-            df_pt = df_player_filtered[df_player_filtered["AutoPitchType"] == pt]
+        for pt in df_player_filtered["TaggedPitchTypePitchType"].unique():
+            df_pt = df_player_filtered[df_player_filtered["TaggedPitchTypePitchType"] == pt]
             total_pt = len(df_pt)
             if total_pt == 0:
                 continue
@@ -1617,7 +1617,7 @@ else:
                 df_event = df_h[df_h["PitchCall"] == "StrikeCalled"]
 
     # — Top-5 pitch types —
-            top5 = df_event["AutoPitchType"].value_counts().index.tolist()[:5]
+            top5 = df_event["TaggedPitchTypePitchType"].value_counts().index.tolist()[:5]
 
     # — Render five small plots in their own columns —
             cols = st.columns(5)
@@ -1625,7 +1625,7 @@ else:
                 with col:
                     if i < len(top5):
                         pt = top5[i]
-                        subset = df_event[df_event["AutoPitchType"] == pt]
+                        subset = df_event[df_event["TaggedPitchTypePitchType"] == pt]
                         fig, ax = plt.subplots(figsize=(3, 3))
                         if len(subset) < 3:
                             ax.text(0.5, 0.5, "No Data", ha="center", va="center", transform=ax.transAxes)
@@ -1666,7 +1666,7 @@ else:
                 st.subheader("Movement Plot")
                 plt.figure(figsize=(6,4))
                 for pitch_type in table1_df['Pitch Type']:
-                    pitch_data = df_player[df_player['AutoPitchType'] == pitch_type]
+                    pitch_data = df_player[df_player['TaggedPitchTypePitchType'] == pitch_type]
                     plt.scatter(pitch_data['HorzBreak'], pitch_data['InducedVertBreak'], label=pitch_type, edgecolor='black')
                 plt.axhline(0, color='black', linestyle='--')
                 plt.axvline(0, color='black', linestyle='--')
@@ -1683,7 +1683,7 @@ else:
                 st.subheader("Approach Angle Plot")
                 plt.figure(figsize=(6,4))
                 for pitch_type in table1_df['Pitch Type']:
-                    pitch_data = df_player[df_player['AutoPitchType'] == pitch_type]
+                    pitch_data = df_player[df_player['TaggedPitchTypePitchType'] == pitch_type]
                     plt.scatter(pitch_data['HorzApprAngle'], pitch_data['VertApprAngle'], label=pitch_type, edgecolor='black')
                 plt.axhline(0, color='black', linestyle='--')
                 plt.axvline(0, color='black', linestyle='--')
@@ -1703,7 +1703,7 @@ else:
                 st.subheader("Release Location Plot")
                 plt.figure(figsize=(6,4))
                 for pitch_type in table1_df['Pitch Type']:
-                    pitch_data = df_player[df_player['AutoPitchType'] == pitch_type]
+                    pitch_data = df_player[df_player['TaggedPitchTypePitchType'] == pitch_type]
                     plt.scatter(pitch_data['RelSide'], pitch_data['RelHeight'], label=pitch_type, edgecolor='black')
                 plt.axhline(0, color='black', linestyle='--')
                 plt.axvline(0, color='black', linestyle='--')
@@ -1718,10 +1718,10 @@ else:
     
             with col2:
                 st.subheader("Velo by Inning Plot")
-                avg_release = df_player.groupby(['Inning', 'AutoPitchType'])['RelSpeed'].mean().reset_index()
+                avg_release = df_player.groupby(['Inning', 'TaggedPitchTypePitchType'])['RelSpeed'].mean().reset_index()
                 plt.figure(figsize=(6,4))
-                for pitch_type in avg_release['AutoPitchType'].unique():
-                    subset = avg_release[avg_release['AutoPitchType'] == pitch_type]
+                for pitch_type in avg_release['TaggedPitchTypePitchType'].unique():
+                    subset = avg_release[avg_release['TaggedPitchTypePitchType'] == pitch_type]
                     plt.step(subset['Inning'], subset['RelSpeed'], where='post', label=pitch_type, linewidth=2)
                 plt.xlabel('Inning')
                 plt.ylabel('Average Release Speed (MPH)')
@@ -1735,7 +1735,7 @@ else:
             with col1:
                 st.subheader("Release Speed Density Plot")
                 plt.figure(figsize=(6,4))
-                sns.violinplot(x="RelSpeed", y="AutoPitchType", data=df_player, palette="Reds", orient="h")
+                sns.violinplot(x="RelSpeed", y="TaggedPitchTypePitchType", data=df_player, palette="Reds", orient="h")
                 plt.xlabel('Release Velocity (MPH)')
                 plt.ylabel('Pitch Type')
                 plt.title(f'{selected_player} - Release Velocity Distribution')
@@ -1743,17 +1743,17 @@ else:
                 plt.clf()
 
             df_player_sorted = df_player.sort_values(["GameID", "Inning"])  # Adjust if you have a specific pitch order column
-            df_player_sorted['PitchOrder'] = df_player_sorted.groupby(['GameID', 'AutoPitchType']).cumcount() + 1
+            df_player_sorted['PitchOrder'] = df_player_sorted.groupby(['GameID', 'TaggedPitchTypePitchType']).cumcount() + 1
             df_player_sorted['PitchGroup'] = np.ceil(df_player_sorted['PitchOrder'] / 3).fillna(0).astype(int)
             df_player_sorted['PitchGroup'] = df_player_sorted['PitchGroup'].fillna(0).astype(int)
-            avg_velo_by_group = df_player_sorted.groupby(['AutoPitchType', 'PitchGroup'])['RelSpeed'].mean().reset_index()
+            avg_velo_by_group = df_player_sorted.groupby(['TaggedPitchTypePitchType', 'PitchGroup'])['RelSpeed'].mean().reset_index()
 
     
             with col2:
                 st.subheader("Velo by Pitch in Outing")
                 plt.figure(figsize=(6, 4))
-                for pitch_type in avg_velo_by_group['AutoPitchType'].unique():
-                    subset = avg_velo_by_group[avg_velo_by_group['AutoPitchType'] == pitch_type]
+                for pitch_type in avg_velo_by_group['TaggedPitchTypePitchType'].unique():
+                    subset = avg_velo_by_group[avg_velo_by_group['TaggedPitchTypePitchType'] == pitch_type]
                     plt.plot(subset['PitchGroup'], subset['RelSpeed'], marker='o', label=pitch_type, linewidth=2)
                 plt.xlabel('Pitch Number (Each point is a groupings of 3)')
                 plt.ylabel('Average Release Speed (MPH)')
@@ -1768,10 +1768,10 @@ else:
                 st.subheader("Velo By Date")
                 df_player['Date'] = pd.to_datetime(df_player['Date'], errors='coerce')
                 df_player_sorted_by_date = df_player.sort_values("Date")
-                avg_velo_by_date = df_player_sorted_by_date.groupby(["AutoPitchType", "Date"])["RelSpeed"].mean().reset_index()
+                avg_velo_by_date = df_player_sorted_by_date.groupby(["TaggedPitchTypePitchType", "Date"])["RelSpeed"].mean().reset_index()
                 plt.figure(figsize=(6, 4))
-                for pitch_type in avg_velo_by_date["AutoPitchType"].unique():
-                    subset = avg_velo_by_date[avg_velo_by_date["AutoPitchType"] == pitch_type].sort_values("Date")
+                for pitch_type in avg_velo_by_date["TaggedPitchTypePitchType"].unique():
+                    subset = avg_velo_by_date[avg_velo_by_date["TaggedPitchTypePitchType"] == pitch_type].sort_values("Date")
                     plt.plot(subset["Date"], subset["RelSpeed"], marker='o', label=pitch_type, linewidth=2)
                 plt.xlabel("Date")
                 plt.ylabel("Average Release Speed (MPH)")
@@ -1785,10 +1785,10 @@ else:
 
             with col1: 
                 st.subheader("IVB By Date")
-                avg_ivb_by_date = df_player_sorted_by_date.groupby(["AutoPitchType", "Date"])["InducedVertBreak"].mean().reset_index()
+                avg_ivb_by_date = df_player_sorted_by_date.groupby(["TaggedPitchTypePitchType", "Date"])["InducedVertBreak"].mean().reset_index()
                 plt.figure(figsize=(6, 4))
-                for pitch_type in avg_ivb_by_date["AutoPitchType"].unique():
-                    subset = avg_ivb_by_date[avg_ivb_by_date["AutoPitchType"] == pitch_type].sort_values("Date")
+                for pitch_type in avg_ivb_by_date["TaggedPitchTypePitchType"].unique():
+                    subset = avg_ivb_by_date[avg_ivb_by_date["TaggedPitchTypePitchType"] == pitch_type].sort_values("Date")
                     plt.plot(subset["Date"], subset["InducedVertBreak"], marker='o', label=pitch_type, linewidth=2)
                 plt.xlabel("Date")
                 plt.ylabel("Average Induced Vertical Break")
@@ -1804,10 +1804,10 @@ else:
                 st.subheader("Spin Rate By Date")
                 df_player['Date'] = pd.to_datetime(df_player['Date'], errors='coerce')
                 df_player_sorted_by_date = df_player.sort_values("Date")
-                avg_spin_by_date = df_player_sorted_by_date.groupby(["AutoPitchType", "Date"])["SpinRate"].mean().reset_index()
+                avg_spin_by_date = df_player_sorted_by_date.groupby(["TaggedPitchTypePitchType", "Date"])["SpinRate"].mean().reset_index()
                 plt.figure(figsize=(6, 4))
-                for pitch_type in avg_spin_by_date["AutoPitchType"].unique():
-                    subset = avg_spin_by_date[avg_spin_by_date["AutoPitchType"] == pitch_type].sort_values("Date")
+                for pitch_type in avg_spin_by_date["TaggedPitchTypePitchType"].unique():
+                    subset = avg_spin_by_date[avg_spin_by_date["TaggedPitchTypePitchType"] == pitch_type].sort_values("Date")
                     plt.plot(subset["Date"], subset["SpinRate"], marker='o', label=pitch_type, linewidth=2)
                 plt.xlabel("Date")
                 plt.ylabel("Average Spin Rate")
@@ -1820,12 +1820,12 @@ else:
             with col2: 
                 st.subheader("Average Spin Rate by Pitch in Outing")
                 df_player_sorted = df_player.sort_values(["GameID", "Inning"])  # Adjust or add a pitch order column if available.
-                df_player_sorted['PitchOrder'] = df_player_sorted.groupby(['GameID', 'AutoPitchType']).cumcount() + 1
+                df_player_sorted['PitchOrder'] = df_player_sorted.groupby(['GameID', 'TaggedPitchTypePitchType']).cumcount() + 1
                 df_player_sorted['PitchGroup'] = np.ceil(df_player_sorted['PitchOrder'] / 3).fillna(0).astype(int)
-                avg_spin_by_group = df_player_sorted.groupby(["AutoPitchType", "PitchGroup"])["SpinRate"].mean().reset_index()
+                avg_spin_by_group = df_player_sorted.groupby(["TaggedPitchTypePitchType", "PitchGroup"])["SpinRate"].mean().reset_index()
                 plt.figure(figsize=(6, 4))
-                for pitch_type in avg_spin_by_group["AutoPitchType"].unique():
-                    subset = avg_spin_by_group[avg_spin_by_group["AutoPitchType"] == pitch_type]
+                for pitch_type in avg_spin_by_group["TaggedPitchTypePitchType"].unique():
+                    subset = avg_spin_by_group[avg_spin_by_group["TaggedPitchTypePitchType"] == pitch_type]
                     plt.plot(subset["PitchGroup"], subset["SpinRate"], marker='o', label=pitch_type, linewidth=2)
                 plt.xlabel("Pitch in outing")
                 plt.ylabel("Average Spin Rate")
@@ -1903,10 +1903,10 @@ else:
             with tabs[3]:
                 st.header("Pitch Analyzer")
 
-                available_pitches = df_player["AutoPitchType"].dropna().unique()
+                available_pitches = df_player["TaggedPitchTypePitchType"].dropna().unique()
                 selected_pitch_type = st.selectbox("Select Pitch Type", sorted(available_pitches))
 
-                df_selected_pitch = df_player[df_player["AutoPitchType"] == selected_pitch_type].copy()
+                df_selected_pitch = df_player[df_player["TaggedPitchTypePitchType"] == selected_pitch_type].copy()
 
                 st.subheader("Select Feature Ranges")
 
