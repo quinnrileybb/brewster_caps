@@ -33,7 +33,7 @@ st.success("Cape Data 2025")
 # -------------------------
 # Sidebar Dropdowns for Team/Position/Player Selection
 # -------------------------
-teams = ["BRE_WHI"]
+teams = ["BRE_WHI", "CHA_ANG", "ORL_FIR", "WAR_GAT", "YAR_RED", "COT_KET", "FAL_COM", "BOU_BRA", "HYA_HAR", "HAR_MAR"]
 col1, col2, col3 = st.columns(3)
 with col1:
     selected_team = st.selectbox("Select Team", teams)
