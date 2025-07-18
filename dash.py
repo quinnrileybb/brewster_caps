@@ -284,7 +284,7 @@ if position == "Batter":
     
         def get_category_data(data, category):
             if category == "Fastball":
-                return data[(data["TaggedPitchTypePitchType"].isin(["Four-Seam", "Sinker"])) | (data["RelSpeed"] > 85)]
+                return data[(data["TaggedPitchType"].isin(["Four-Seam", "Sinker"])) | (data["RelSpeed"] > 85)]
             elif category == "93+":
                 return data[data["RelSpeed"] >= 93]
             elif category == "High Spin":
