@@ -632,7 +632,7 @@ if position == "Batter":
             "Overall":      lambda df: df,
             "Fastball":     lambda df: df[(df["TaggedPitchType"].isin(["Four-Seam","Sinker"]))],
             "Breaking Ball":lambda df: df[df["TaggedPitchType"].isin(["Slider","Curveball","Cutter"])],
-            "Offspeed":     lambda df: df[df["TaggedPitchType"].isin(["Splitter","Changeup"])]
+            "Offspeed":     lambda df: df[df["TaggedPitchType"].isin(["Splitter","ChangeUp"])]
         }
         col_names = list(col_filters.keys())
 
