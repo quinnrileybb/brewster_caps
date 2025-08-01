@@ -292,7 +292,7 @@ if position == "Batter":
             elif category == "Breaking Ball":
                 return data[data["TaggedPitchType"].isin(["Slider", "Curveball", "Cutter"])]
             elif category == "Offspeed":
-                return data[data["TaggedPitchType"].isin(["Splitter", "Changeup"])]
+                return data[data["TaggedPitchType"].isin(["Splitter", "ChangeUp"])]
             elif category == "Overall":
                 return data
             else:
